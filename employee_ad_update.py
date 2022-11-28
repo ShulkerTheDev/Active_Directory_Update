@@ -23,6 +23,5 @@ for index, row in df.iterrows():
 
 
     #subprocess.call(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", f"Get-ADUser -Filter 'Name -like ''{employeeFName}*{employeeLName}''' -Properties Division, Department, Description| Fl *"])
-    print(employeeName)
-    subprocess.call(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", "RunAs /user:nib-bahamas\z-devaughn",f"Get-ADUser -Filter 'Name -like ''{employeeFName}*{employeeLName}''' | Set-ADUser -Description '{employeeDescription}' -Department '{employeeDepartment}' -Division '{employeeDivision}'"])
+    subprocess.run(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", "RunAs /user:nib-bahamas\z-devaughn",f"Get-ADUser -Filter 'Name -like ''{employeeFName}*{employeeLName}''' | Set-ADUser -Description '{employeeDescription}' -Department '{employeeDepartment}' -Division '{employeeDivision}'"], shell=True, check=True)
     #subprocess.call(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", f"Get-ADUser -Filter 'Name -like ''{employeeFName}*{employeeLName}''' -Properties Division, Department, Description| Fl *"])
