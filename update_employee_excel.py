@@ -1,6 +1,5 @@
 import pandas as pd
 import subprocess
-from ldap3 import Server, Connection, SAFE_SYNC, ALL_ATTRIBUTES, SUBTREE, BASE, ALL
 from getpass import getpass
 import re
 
@@ -32,13 +31,4 @@ for index, row in df.iterrows():
 
 
 df.to_excel("output.xlsx")
-
-
-    
-#server = Server('172.16.0.6', get_info=ALL)
-#conn = Connection(server, 'nib-bahamas\z-devaughn', password, auto_bind=True)
-#conn.open()
-#conn.search("DC=nib-bahamas,DC=COM", "(givenName=Devaughn)")
-#conn.entries
-#print(conn.entries)
 
