@@ -1,11 +1,11 @@
 import pandas as pd
 import subprocess
-from getpass import getpass
 import re
+import getpass
 
 #Pass excel sheet into a dataframe
 df = pd.read_excel('TCMD LIst.xls', keep_default_na=False)
-#password = getpass()
+password = getpass.getpass('Password:')
 
 #Loops over each row in the dataframe
 for index, row in df.iterrows():
