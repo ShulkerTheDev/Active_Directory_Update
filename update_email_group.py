@@ -1,26 +1,46 @@
 import pandas as pd
 import subprocess
 import re
-import getpass
 
 #Pass excel sheet into a dataframe
 df = pd.read_excel('Excel_Sheets//Exec List at Jan 2023.xlsx', keep_default_na=False)
 df2 = pd.read_excel('Excel_Sheets//Manager list at Jan 2023.xlsx', keep_default_na=False)
 df3 = pd.read_excel('Excel_Sheets//Non-Manager List at Jan 2023.xlsx', keep_default_na=False)
 
-#Prompts for password
-#password = getpass.getpass('Password:')
+#create file to store error logs
+logFile = open('errorsLog.txt', 'w') 
 
 #Loops over each row in the dataframe
-for index, row in df.iterrows():
-    employeeName = row["Name"] 
+for index, row in df3.iterrows():
+  employeeName = row["Name"] 
 
-    employeeFName = re.split(', | ', employeeName)[1]
-    employeeLName = re.split(', | ', employeeName)[0]
+  employeeFName = re.split(', | ', employeeName)[1]
+  employeeLName = re.split(', | ', employeeName)[0]
 
-    try:
-        proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", "Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn", f"Add-DistributionGroupMember -Identity 'Management Staff' -Member '{employeeFName} {employeeLName}'"]).decode("utf-8")
-    except Exception as e:
-        print(str(e))
+  #Check if middle inital exists if so assign it, if not assign None
+  try:
+    employeeMInital = re.split(', | ', employeeName)[2]
+  except IndexError:
+    employeeMInital = None
+
+  try:
+    command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Add-DistributionGroupMember -Identity 'Non-Management Staff' -Member '{employeeFName} {employeeLName}'"
+    proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", command], shell=True)
+  except Exception as e:
+    if "MemberAlreadyExistsException" in str(e.output):
+      pass
+    elif(employeeMInital is not None):
+      try:
+          command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Add-DistributionGroupMember -Identity 'Non-Management Staff' -Member '{employeeFName} {employeeMInital}. {employeeLName}'"
+          proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", command], shell=True)
+      except Exception as e:
+        if "MemberAlreadyExistsException" in str(e.output):
+          pass        
+        errMsg = re.split('At', str(e.output))[0]
+        logFile.write(errMsg+"\n")
+    else:
+      errMsg = re.split('At', str(e.output))[0]
+      logFile.write(errMsg+"\n")
+
 
 
