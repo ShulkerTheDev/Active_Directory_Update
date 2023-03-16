@@ -11,7 +11,7 @@ df3 = pd.read_excel('Excel_Sheets//Non-Manager List at Jan 2023.xlsx', keep_defa
 logFile = open('errors.txt', 'w') 
 
 #Loops over each row in the dataframe
-for index, row in df3.iterrows():
+for index, row in df2.iterrows():
   employeeName = row["Name"] 
 
   employeeFName = re.split(', | ', employeeName)[1]
@@ -24,12 +24,12 @@ for index, row in df3.iterrows():
     employeeMInital = None
 
   try:
-    command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Remove-DistributionGroupMember -Identity 'Management Staff' -Member '{employeeFName} {employeeLName}'"
+    command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Remove-DistributionGroupMember -Identity 'UPO Members' -Member '{employeeFName} {employeeLName}'"
     proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", command], shell=True, input= "y", text=True)
   except Exception as e:
     if(employeeMInital is not None):
       try:
-        command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Remove-DistributionGroupMember -Identity 'Management Staff' -Member '{employeeFName} {employeeMInital}. {employeeLName}'"
+        command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Remove-DistributionGroupMember -Identity 'UPO Members' -Member '{employeeFName} {employeeMInital}. {employeeLName}'"
         proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", command], shell=True, input= "y", text=True)
       except Exception as e:
         logFile.write(str(e)+"\n")
