@@ -24,14 +24,14 @@ for index, row in df3.iterrows():
     employeeMInital = None
 
   try:
-    command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Add-DistributionGroupMember -Identity 'Non-Management Staff' -Member '{employeeFName} {employeeLName}'"
+    command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Add-DistributionGroupMember -Identity 'UPO Members' -Member '{employeeFName} {employeeLName}'"
     proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", command], shell=True)
   except Exception as e:
     if "MemberAlreadyExistsException" in str(e.output):
       pass
     elif(employeeMInital is not None):
       try:
-          command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Add-DistributionGroupMember -Identity 'Non-Management Staff' -Member '{employeeFName} {employeeMInital}. {employeeLName}'"
+          command = f"Add-PSSnapin Microsoft.Exchange.Management.PowerShell.SnapIn; Add-DistributionGroupMember -Identity 'UPO Members' -Member '{employeeFName} {employeeMInital}. {employeeLName}'"
           proc =subprocess.check_output(["C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe", command], shell=True)
       except Exception as e:
         if "MemberAlreadyExistsException" in str(e.output):
