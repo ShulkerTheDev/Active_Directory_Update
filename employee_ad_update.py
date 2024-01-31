@@ -3,7 +3,7 @@ import subprocess
 import re
 
 #Pass excel sheet into a dataframe
-df = pd.read_excel('Employee List for September 2022 - Copy.xlsx', keep_default_na=False)
+df = pd.read_excel('Employee List for August 2023 final for IT.xlsx', keep_default_na=False)
 
 #Loops over each row in the dataframe
 for index, row in df.iterrows(): 
@@ -17,7 +17,7 @@ for index, row in df.iterrows():
       employeeLName = re.split(', | ', employeeName)[1]
     except IndexError:
       continue
-    employeeDescription = row["Job Descr"]
+    employeeDescription = row["Position Title"]
     employeeDepartment = row["Department"]
     employeeDivision = row["Division"]
 

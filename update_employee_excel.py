@@ -1,11 +1,9 @@
 import pandas as pd
 import subprocess
 import re
-import getpass
 
 #Pass excel sheet into a dataframe
-df = pd.read_excel('TCMD LIst.xls', keep_default_na=False)
-password = getpass.getpass('Password:')
+df = pd.read_excel('Excel_Sheets/TCMD LIst.xls', keep_default_na=False)
 
 #Loops over each row in the dataframe
 for index, row in df.iterrows():
@@ -30,5 +28,5 @@ for index, row in df.iterrows():
         message = str(e)
 
 
-df.to_excel("output.xlsx")
+df.to_excel("Excel_Sheets/output.xlsx")
 
